@@ -114,6 +114,10 @@ message: '修改成功',          // 与返回码对应的文字
 ``` 
 code: 0,                     // 返回码， 0 表示成功， -1 系统异常
 message: '设置成功',          // 与返回码对应的文字
+data: {
+  'user': 'xxxxxx',           // 用户名
+  'token': 'xdafdqeqsadaf',   // 签名
+}
 ```
 
 ### 1.6 发送验证码
@@ -359,16 +363,12 @@ data: {
         'count': 6,
         'list': [
            {
-              'user': {
-                 'user': 'xxxxxx',
-                 'nickname': 'xxxxx',
-                 'head': 'http://xxxx/head.jpg',
-               },
-              'comment': {
-                 'id': 1213131,
-                 'time': 121412313,
-                 'text': 'hello comment',
-              }
+              'user': 'xxxxxx',
+              'nickname': 'xxxxx',
+              'id': '1213131',
+              'time': 121412313,
+              'text': 'hello comment', 
+              're_nickname': 'xxxxx',    // 被回复评论用户名
            },
            ...,
         ]         // list
