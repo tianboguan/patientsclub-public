@@ -108,6 +108,7 @@ message: '修改成功',          // 与返回码对应的文字
 | ------ | ------ | ---------- |
 | action | string | reset_pass |
 | n_pass | string | 新密码        |
+| phone  | string | 手机号        |
 
 ​**返回值：**
 
@@ -131,7 +132,6 @@ data: {
 | 参数名    | 类型     | 描述        |
 | :----- | ------ | --------- |
 | action | string | send_code |
-| phone  | string | 目标手机号     |
 
 **返回值：**
 
