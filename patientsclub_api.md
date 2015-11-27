@@ -287,13 +287,13 @@ message: '拉黑成功',             // 与返回码对应的文字
 ``` 
 code: 0,                        // 返回码， 0 表示成功， -1 系统异常 
 message: '发布成功',             // 与返回码对应的文字
-data: {
+data: {                         // 返回数据参数参考腾讯云图片服务
   'sign': 'xxxxxdafdafasfas',   // 上传图片鉴名
+  'appid': 'appid info',        //
+  'bucket': 'bucket info',      //
   'img_conf': [
-     {
-       'appid': 'xxxx',             // 参考万象优图
-       'bucket': 'xxxx',            // 
-       'fileid' : 'xxxx',           //
+     { 
+       'fileid' : 'xxxx',           // 
        'callback': 'magic context', // 万象优图回调数据
      },
      ...
@@ -358,23 +358,10 @@ data: {
   },
   'interact': {
      'view': 28,
-     'like': 6
-     'comment': {
-        'count': 6,
-        'list': [
-           {
-              'user': 'xxxxxx',
-              'nickname': 'xxxxx',
-              'id': '1213131',
-              'time': 121412313,
-              'text': 'hello comment', 
-              're_nickname': 'xxxxx',    // 被回复评论用户名
-           },
-           ...,
-        ]         // list
-     }            // comment
-  }               // interact
-}                 // data
+     'like': 6,
+     'comment': 3,
+  }
+}
 ```
 
 ### 3.4 查看记录列表v1
@@ -405,7 +392,7 @@ data: {
 
 ### 3.5 查看记录列表v2
 
-​**功能：** 返回记录详细信息列表
+**功能：** 返回记录详细信息列表
 
 ​**方法：** get
 
@@ -467,13 +454,13 @@ message: '删除成功',             // 与返回码对应的文字
 
 ​**参数：**
 
-| 参数名        | 类型     | 描述                   |
-| ---------- | ------ | -------------------- |
-| action     | string | add                  |
-| type       | string | comment: 评论，like: 点赞 |
-| record_id  | int    | 记录id                 |
-| comment_id | int    | 评论id,  供评论评论使用，点赞置空  |
-| comment    | string | 评论内容，点赞置空            |
+| 参数名             | 类型     | 描述                   |
+| --------------- | ------ | -------------------- |
+| action          | string | add                  |
+| type            | string | comment: 评论，like: 点赞 |
+| record_id       | int    | 记录id                 |
+| target_nickname | string | 评论的评论，原评论作者的昵称       |
+| comment         | string | 评论内容，点赞置空            |
 
 ​**返回值：**
 
@@ -532,7 +519,7 @@ data: [
     'nickname': 'user name',          // 评论用户昵称
     'head': 'http://xx/head.jpg'      // 评论用户头像
     'comment': 'this is a comment',   // 评论内容
-    'comment_id': 'xxxx'              // 被评论id, 对非评论的评论此参数置0
+    'target_nickname': 'xxxx'         // 评论的评论，原评论作者的昵称
   }, 
   ...
 ]
@@ -540,8 +527,7 @@ data: [
 ------------下面为 type = like 时返回的内容----------------
 data: [
   {
-    'user': '12345',                     // 赞用户id
-    'time': 1447988674,                  // 赞时间
+    'user': 'user_id',                   // 赞用户id
     'nickname': 'nickname',              // 赞用户昵称
     'head': 'http://xxxxx/head.jpg',     // 赞用户头像
   }, 
@@ -561,14 +547,13 @@ data: {
       'nickname': 'user name',          // 评论用户昵称
       'head': 'http://xx/head.jpg'      // 评论用户头像
       'comment': 'this is a comment',   // 评论内容
-      'comment_id': 'xxxx'              // 被评论id, 对非评论的评论此参数置0
+      'target_nickname': 'xxxx'         // 评论的评论，原评论作者的昵称
     }, 
     ...
   ],
   'like': [
     {
       'user': '12345',                     // 赞用户id
-      'time': 1447988674,                  // 赞时间
       'nickname': 'nickname',              // 赞用户昵称
       'head': 'http://xxxxx/head.jpg',     // 赞用户头像
     }, 
@@ -624,8 +609,8 @@ message: '修改成功',                  // 与返回码对应的文字
 data: {
   'appid': 'xxxxx',                  // 参考万象优图
   'bucket': 'xxxxx',                 //
-  'fileid': 'xxxxxx',                //
   'sign': 'xxxxxxxx',                // 签名
+  'fileid': 'xxxxxx',                //
   'callback': 'magic context',       // 万象优图回调数据
 }
 ```
@@ -698,7 +683,7 @@ data: {
 
 **接口:**  http://www.patientsclub.com/we/cgi-bin/recommand.cgi
 
-**功能:**  本接口供用户向patientsclub反馈问题
+**功能:**  本接口接取为当前用户推荐的用户列表。
 
 **方法:**  get
 
@@ -741,15 +726,28 @@ data: {
 
 **参数：**
 
-| 参数名    | 类型     | 描述     |
-| ------ | ------ | ------ |
-| conent | string | 反馈问题内容 |
+| 参数名       | 类型     | 描述     |
+| --------- | ------ | ------ |
+| conent    | string | 反馈问题内容 |
+| img_count | int    | 图片个数   |
 
 ​**返回值：**
 
 ``` 
 code: 0,                        // 返回码， 0 表示成功， 其它失败
 message: '查询成功',             // 与返回码对应的文字
+data: {
+  'appid': 'xxxxx',                  // 参考万象优图
+  'bucket': 'xxxxx',                 //
+  'sign': 'xxxxxxxx',                // 签名
+  'img_conf': [
+     {
+        'fileid': 'xxxxxx',                //
+        'callback': 'magic context',       // 万象优图回调数据
+     },
+     ...,
+  ]
+}
 ```
 
 ## 8 业务数据管理
