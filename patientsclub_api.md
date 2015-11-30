@@ -444,66 +444,152 @@ message: '删除成功',             // 与返回码对应的文字
 
 **接口：** http://www.patientsclub.com/we/cgi-bin/interact.cgi
 
-​**说明：** 本节定义了用户在patientsclub的互动相关的接口
+**说明：** 本节定义了用户在patientsclub的互动相关的接口
 
-### 4.1 增加评论/赞
+### 4.1 赞
 
-​**功能：** 对一条记录进行评论或是点赞
+**功能：** 赞一条记录
+
+**方法：** post
+
+​**参数：**
+
+| 参数名       | 类型     | 描述      |
+| --------- | ------ | ------- |
+| action    | string | like    |
+| record_id | string | 待赞的记录id |
+
+**返回值：**
+
+``` 
+code: 0,                        // 返回码， 0 表示成功，-1 系统异常
+message: '点赞成功',             // 与返回码对应的文字
+```
+
+### 4.2 删除赞
+
+**功能：** 删除赞记录
+
+**方法：** post
+
+**参数：**
+
+| 参数名       | 类型     | 描述      |
+| --------- | ------ | ------- |
+| action    | string | unlike  |
+| record_id | string | 已赞的记录id |
+
+**返回值：**
+
+``` 
+code: 0,                        // 返回码， 0 表示成功，-1 系统异常
+message: '删除点赞成功',             // 与返回码对应的文字
+```
+
+### 4.3 增加评论
+
+**功能：** 对一条记录进评论
 
 ​**方法：** post
 
 ​**参数：**
 
-| 参数名             | 类型     | 描述                   |
-| --------------- | ------ | -------------------- |
-| action          | string | add                  |
-| type            | string | comment: 评论，like: 点赞 |
-| record_id       | int    | 记录id                 |
-| target_nickname | string | 评论的评论，原评论作者的昵称       |
-| comment         | string | 评论内容，点赞置空            |
+| 参数名        | 类型     | 描述                      |
+| ---------- | ------ | ----------------------- |
+| action     | string | comment                 |
+| record_id  | int    | 记录id                    |
+| comment_id | string | 评论的评论，原评论的id, 普通评论忽略本字段 |
+| comment    | string | 评论内容，点赞置空               |
 
-​**返回值：**
+**返回值：**
 
 ``` 
 code: 0,                        // 返回码， 0 表示成功，-1 系统异常
 message: '评论成功',             // 与返回码对应的文字
 ```
 
-### 4.2 删除评论/赞
+### 4.4 删除评论
 
-​**功能：** 删除一条评论或是一个点赞
+**功能：** 删除一条评论
 
-​**方法：** post
+**方法：** post
 
-​**参数：**
+**参数：**
 
-| 参数名        | 类型     | 描述                   |
-| ---------- | ------ | -------------------- |
-| action     | string | del                  |
-| type       | string | comment: 评论，like: 点赞 |
-| record_id  | int    | 记录id                 |
-| comment_id | int    | 评论id, 删除点赞置空         |
+| 参数名        | 类型     | 描述        |
+| ---------- | ------ | --------- |
+| action     | string | uncomment |
+| record_id  | int    | 记录id      |
+| comment_id | int    | 评论id      |
 
-​**返回值：**
+**返回值：**
 
 ``` 
-code: 0,                        // 返回码， 0 表示成功， -1 系统异常
-message: '删除成功',             // 与返回码对应的文字
+code: 0,                           // 返回码， 0 表示成功， -1 系统异常
+message: '删除评论成功',             // 与返回码对应的文字
 ```
 
-### 4.3 查评论列表，赞列表，浏览次数
+### 4.5 查看一条记录的互动明细
 
-​**功能：** 查看一条记录的评论列表，赞列表，浏览次数
+**功能：** 查看一条记录的评论次数，赞次数，浏览次数
+
+**方法：** get
+
+**参数：**
+
+| 参数名       | 类型     | 描述     |
+| --------- | ------ | ------ |
+| action    | string | detail |
+| record_id | string | 记录id   |
+
+**返回值：**
+
+``` 
+code: 0,                        // 返回码， 0 表示成功，-1 系统异常
+message: '查询成功',             // 与返回码对应的文字
+data: {
+  'comment' : [                 // 评论列表
+    {
+      'id': '12345',                    // 评论id
+      'time': 1447988674,               // 评论时间
+      'user': {                         // 用户信息
+         'user': '12134212',
+         'nickname': 'user name',
+         'head': 'http://xx/head.jpg'
+      },
+      'comment': 'this is a comment',    // 评论内容
+      'target_nickname': 'xxxx'          // 评论的评论，原评论作者的昵称
+    }, 
+    ...
+  ],
+  'like': [                             // 赞列表
+    {
+      'id': '123456',                   // 赞id
+      'time': 1447988674,               // time
+      'user': {                         // 用户信息
+         'user': '12345',
+         'nickname': 'nickname',
+         'head': 'http://xxxxx/head.jpg',
+      }
+    }, 
+    ...
+  ],
+}
+```
+
+### 4.6 查询未读互动数据
+
+**功能：** 查询与自己相关的互动数据列表
 
 ​**方法：** get
 
 ​**参数：**
 
-| 参数名       | 类型     | 描述                                    |
-| --------- | ------ | ------------------------------------- |
-| action    | string | select                                |
-| type      | string | comment: 评论，like: 点赞，view: 浏览，all: 所有 |
-| record_id | string | 记录id                                  |
+| 参数名    | 类型     | 描述                                     |
+| ------ | ------ | -------------------------------------- |
+| action | string | notice                                 |
+| type   | string | 'fresh':  新的、未读的,     ‘history’:  历史的。 |
+| page   | int    | 第几页数据                                  |
 
 **返回值：**
 
@@ -511,56 +597,34 @@ message: '删除成功',             // 与返回码对应的文字
 code: 0,                        // 返回码， 0 表示成功，-1 系统异常
 message: '评论成功',             // 与返回码对应的文字
 ------------下面为 type = comment 时返回的内容 ------
-data: [
-  {
-    'id': '12345',                    // 评论id
-    'time': 1447988674,               // 评论时间
-    'user': '12134212',               // 评论用户
-    'nickname': 'user name',          // 评论用户昵称
-    'head': 'http://xx/head.jpg'      // 评论用户头像
-    'comment': 'this is a comment',   // 评论内容
-    'target_nickname': 'xxxx'         // 评论的评论，原评论作者的昵称
-  }, 
-  ...
-]
-
-------------下面为 type = like 时返回的内容----------------
-data: [
-  {
-    'user': 'user_id',                   // 赞用户id
-    'nickname': 'nickname',              // 赞用户昵称
-    'head': 'http://xxxxx/head.jpg',     // 赞用户头像
-  }, 
-  ...
-]
-
-------------下面为 type = view 时返回的内容-------------
-data: 123                               // 被浏览次数
-
------------- 下面为 type = all 时返回的内容 ------------
 data: {
-  'comment' : [
+  'page': 0,
+  'inter_list': [
     {
-      'id': '12345',                    // 评论id
+      'type': 'comment',                // 一则评论
       'time': 1447988674,               // 评论时间
-      'user': '12134212',               // 评论用户
-      'nickname': 'user name',          // 评论用户昵称
-      'head': 'http://xx/head.jpg'      // 评论用户头像
+      'target_nickname': 'xxxx',        // 评论的评论，原评论作者的昵称
+      'record_id' : 'xxxxxx',           // 记录id
       'comment': 'this is a comment',   // 评论内容
-      'target_nickname': 'xxxx'         // 评论的评论，原评论作者的昵称
+      'user': {
+        'user': 'xxxxxx',
+        'nickname': 'nickname',
+        'head': 'http://xxxx/head.jpg',
+      }      // user
     }, 
-    ...
-  ],
-  'like': [
     {
-      'user': '12345',                     // 赞用户id
-      'nickname': 'nickname',              // 赞用户昵称
-      'head': 'http://xxxxx/head.jpg',     // 赞用户头像
-    }, 
+      'type': 'like',                   // 一则赞
+      'time': 1447988674,               // 赞时间 
+      'record_id': 'xxxxxx',            // 赞目标记录id
+      'user': {
+        'user': 'xxxxxx',
+        'nickname': 'nickname',
+        'head': 'http://xxxx/head.jpg',
+      }   // user    
+    },
     ...
-  ],
-  'view': 123,                              // 被浏览次数
-}
+  ]  // inter_list
+} // data
 ```
 
 ## 5 个人资料管理
