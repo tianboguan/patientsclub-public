@@ -548,7 +548,7 @@ message: '删除评论成功',             // 与返回码对应的文字
 code: 0,                        // 返回码， 0 表示成功，-1 系统异常
 message: '查询成功',             // 与返回码对应的文字
 data: {
-  'comment' : [                 // 评论列表
+  'comments' : [                 // 评论列表
     {
       'id': '12345',                    // 评论id
       'time': 1447988674,               // 评论时间
@@ -562,7 +562,7 @@ data: {
     }, 
     ...
   ],
-  'like': [                             // 赞列表
+  'likes': [                             // 赞列表
     {
       'id': '123456',                   // 赞id
       'time': 1447988674,               // time
@@ -599,28 +599,42 @@ message: '评论成功',             // 与返回码对应的文字
 ------------下面为 type = comment 时返回的内容 ------
 data: {
   'page': 0,
-  'inter_list': [
+  'interacts': [
     {
       'type': 'comment',                // 一则评论
-      'time': 1447988674,               // 评论时间
-      'target_nickname': 'xxxx',        // 评论的评论，原评论作者的昵称
-      'record_id' : 'xxxxxx',           // 记录id
-      'comment': 'this is a comment',   // 评论内容
-      'user': {
-        'user': 'xxxxxx',
-        'nickname': 'nickname',
-        'head': 'http://xxxx/head.jpg',
-      }      // user
+      'inter_data': {                   // 评论具体信息
+        'id': 'comment_id',
+        'time': 1447988674,
+        'user': {
+          'user': 'xxxxxx',
+          'nickname': 'nickname',
+          'head': 'http://xxxx/head.jpg',
+        }
+        'target_nickname': 'xxxx',        // 评论的评论，原评论作者的昵称
+        'comment': 'this is a comment',   // 评论内容
+      },
+      'record': {                         // 评论相关记录信息
+         'id': 'xxxxx',                              // 记录id
+         'picture': 'http://xxx/1.jpg',              // 记录的第一张图片
+         'text': 'this is a record text content',    // 记录内容
+	  }
     }, 
     {
       'type': 'like',                   // 一则赞
-      'time': 1447988674,               // 赞时间 
-      'record_id': 'xxxxxx',            // 赞目标记录id
-      'user': {
-        'user': 'xxxxxx',
-        'nickname': 'nickname',
-        'head': 'http://xxxx/head.jpg',
-      }   // user    
+      'inter_data': {                   // 赞详细信息
+        'id': 'like_id',
+        'time': 1447988674,
+        'user': {
+          'user': 'xxxxxx',
+          'nickname': 'nickname',
+          'head': 'http://xxxx/head.jpg',
+        }
+      }
+      'record': {                       // 赞相关记录信息
+         'id': 'xxxxx',                              // 记录id
+         'picture': 'http://xxx/1.jpg',              // 记录的第一张图片
+         'text': 'this is a record text content',    // 记录内容
+	  }
     },
     ...
   ]  // inter_list
