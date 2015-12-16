@@ -495,12 +495,12 @@ message: '删除点赞成功',             // 与返回码对应的文字
 
 ​**参数：**
 
-| 参数名        | 类型     | 描述                      |
-| ---------- | ------ | ----------------------- |
-| action     | string | comment                 |
-| record_id  | int    | 记录id                    |
-| comment_id | string | 评论的评论，原评论的id, 普通评论忽略本字段 |
-| comment    | string | 评论内容，点赞置空               |
+| 参数名                | 类型     | 描述                      |
+| ------------------ | ------ | ----------------------- |
+| action             | string | comment                 |
+| record_id          | int    | 记录id                    |
+| target_interact_id | string | 评论的评论，原评论的id, 普通评论忽略本字段 |
+| text               | string | 评论内容，点赞置空               |
 
 **返回值：**
 
@@ -517,11 +517,11 @@ message: '评论成功',             // 与返回码对应的文字
 
 **参数：**
 
-| 参数名        | 类型     | 描述        |
-| ---------- | ------ | --------- |
-| action     | string | uncomment |
-| record_id  | int    | 记录id      |
-| comment_id | int    | 评论id      |
+| 参数名         | 类型     | 描述        |
+| ----------- | ------ | --------- |
+| action      | string | uncomment |
+| record_id   | int    | 记录id      |
+| interact_id | int    | 评论id      |
 
 **返回值：**
 
@@ -540,7 +540,7 @@ message: '删除评论成功',             // 与返回码对应的文字
 
 | 参数名       | 类型     | 描述     |
 | --------- | ------ | ------ |
-| action    | string | detail |
+| action    | string | record |
 | record_id | string | 记录id   |
 
 **返回值：**
@@ -551,27 +551,33 @@ message: '查询成功',             // 与返回码对应的文字
 data: {
   'comments' : [                 // 评论列表
     {
-      'id': '12345',                    // 评论id
-      'time': 1447988674,               // 评论时间
-      'user': {                         // 用户信息
+      'interact': {                   // 互动内容
+         'id': '12345',
+         'time': xxxxx,
+         'type': 'comment',
+         'text': 'this is a comment',
+         'target_nickname': 'xxxx'
+      },
+      'user': {                         // 互动用户
          'user': '12134212',
          'nickname': 'user name',
          'head': 'http://xx/head.jpg'
       },
-      'comment': 'this is a comment',    // 评论内容
-      'target_nickname': 'xxxx'          // 评论的评论，原评论作者的昵称
-    }, 
+    },
     ...
   ],
   'likes': [                             // 赞列表
     {
-      'id': '123456',                   // 赞id
-      'time': 1447988674,               // time
-      'user': {                         // 用户信息
-         'user': '12345',
-         'nickname': 'nickname',
-         'head': 'http://xxxxx/head.jpg',
+      'interact': {                     // 互动内容
+         'id': '12345',
+         'time': xxxxx,
+         'type': 'like',
       }
+      'user': {                         // 互动用户
+         'user': '12134212',
+         'nickname': 'user name',
+         'head': 'http://xx/head.jpg'
+      },
     }, 
     ...
   ],
@@ -601,36 +607,36 @@ data: {
   'page': 0,
   'interacts': [
     {
-      'type': 'comment',                // 一则评论
-      'inter_data': {                   // 评论具体信息
-        'id': 'comment_id',
-        'time': 1447988674,
-        'user': {
-          'user': 'xxxxxx',
-          'nickname': 'nickname',
-          'head': 'http://xxxx/head.jpg',
-        }
-        'target_nickname': 'xxxx',        // 评论的评论，原评论作者的昵称
-        'comment': 'this is a comment',   // 评论内容
+      'interact': {                    // 互动内容
+         'id': '12345',
+         'time': xxxxx,
+         'type': 'comment',
+         'text': 'this is a comment',
+         'target_nickname': 'xxxx'
       },
-      'record': {                         // 评论相关记录信息
+      'user': {                         // 互动用户
+         'user': '12134212',
+         'nickname': 'user name',
+         'head': 'http://xx/head.jpg'
+      },
+      'record': {                         // 互动记录
          'id': 'xxxxx',                              // 记录id
          'picture': 'http://xxx/1.jpg',              // 记录的第一张图片
          'text': 'this is a record text content',    // 记录内容
 	  }
     }, 
     {
-      'type': 'like',                   // 一则赞
-      'inter_data': {                   // 赞详细信息
-        'id': 'like_id',
-        'time': 1447988674,
-        'user': {
-          'user': 'xxxxxx',
-          'nickname': 'nickname',
-          'head': 'http://xxxx/head.jpg',
-        }
+      'interact': {                    // 互动内容
+         'id': '12345',
+         'time': xxxxx,
+         'type': 'like',
       }
-      'record': {                       // 赞相关记录信息
+      'user': {                         // 互动用户
+         'user': '12134212',
+         'nickname': 'user name',
+         'head': 'http://xx/head.jpg'
+      },
+      'record': {                       // 互动记录
          'id': 'xxxxx',                              // 记录id
          'picture': 'http://xxx/1.jpg',              // 记录的第一张图片
          'text': 'this is a record text content',    // 记录内容
@@ -657,7 +663,7 @@ data: {
 
 | 参数名     | 类型     | 描述                                       |
 | ------- | ------ | ---------------------------------------- |
-| action | string | alt                                      |
+| action  | string | alt                                      |
 | profile | string | 完整或是部分gprofile的json串，json串的格式见查看资料接口, 不涉及头像修改，头像修改见下面cgi. |
 
 ​**返回值：**
@@ -675,8 +681,8 @@ message: '修改成功',             // 与返回码对应的文字
 
 ​**参数：**
 
-| 参数名  | 类型     | 描述       |
-| ---- | ------ | -------- |
+| 参数名    | 类型     | 描述       |
+| ------ | ------ | -------- |
 | action | string | alt_head |
 
 **返回值：**
@@ -703,7 +709,7 @@ data: {
 
 | 参数名         | 类型     | 描述          |
 | ----------- | ------ | ----------- |
-| acion | string | query       |
+| acion       | string | query       |
 | target_user | string | 待查询个人资料的用户名 |
 
 ​**返回值：**
@@ -735,7 +741,7 @@ data: {
 
 | 参数名         | 类型     | 描述          |
 | ----------- | ------ | ----------- |
-| action | string | stat        |
+| action      | string | stat        |
 | target_user | string | 待查询个人资料的用户名 |
 
 ​**返回值：**
