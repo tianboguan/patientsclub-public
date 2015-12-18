@@ -399,12 +399,11 @@ data: {
 
 ​**参数：**
 
-| 参数名         | 类型     | 描述                                  |
-| ----------- | ------ | ----------------------------------- |
-| action      | string | query_list_v2                       |
-| type        | string | follow: 动态页，time: 最近更新页， home: 用户主页 |
-| target_user | string | 当type为home时，被查看主页的用户名，其它type忽略该参数   |
-| page        | int    | 第几页:w                               |
+| 参数名         | 类型     | 描述                                       |
+| ----------- | ------ | ---------------------------------------- |
+| action      | string | active: 查询动态页，recent: 查询最近更新， home: 查询个人主 |
+| page        | int    | 第几页:w                                    |
+| target_user | string | 当type为home时，被查看主页的用户名，其它type忽略该参数        |
 
 ​**返回值：**
 
@@ -431,7 +430,7 @@ data: {
 | 参数名    | 类型     | 描述              |
 | ------ | ------ | --------------- |
 | action | string | alt_privacy     |
-| id     | int    | 记录id            |
+| id     | string | 记录id            |
 | public | string | yes: 公开，no: 不公开 |
 
 **返回值：**
