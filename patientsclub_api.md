@@ -272,16 +272,16 @@ message: '拉黑成功',             // 与返回码对应的文字
 
 ​**参数：**
 
-| 参数名     | 类型     | 描述             |
-| ------- | ------ | -------------- |
-| action  | string | create         |
-| weather | string | 天气标签图标对应url    |
-| mood    | string | 心情标签图标对应url    |
-| status  | string | 状态标签图标对应url    |
-| text    | string | 文本内容           |
-| picture | int    | 图片个数           |
-| public  | string | yes: 公开，no: 私密 |
-| address | string | 用户输入的地址信息      |
+| 参数名       | 类型     | 描述             |
+| --------- | ------ | -------------- |
+| action    | string | create         |
+| weather   | string | 天气标签图标对应url    |
+| mood      | string | 心情标签图标对应url    |
+| status    | string | 状态标签图标对应url    |
+| text      | string | 文本内容           |
+| picture   | int    | 图片个数           |
+| is_public | string | yes: 公开，no: 私密 |
+| address   | string | 用户输入的地址信息      |
 
 **返回值：**
 
@@ -762,7 +762,7 @@ data: {
 }
 ```
 
-## 6 推荐列表 (todo)
+## 6 推荐列表 (done)
 
 **接口:**  http://www.patientsclub.com/we/cgi-bin/recommand.cgi
 
@@ -772,14 +772,15 @@ data: {
 
 **参数:**
 
-| 参数名  | 类型   | 描述   |
-| ---- | ---- | ---- |
-|      |      |      |
+| 参数名    | 类型     | 描述   |
+| ------ | ------ | ---- |
+| action | string | get  |
+| page   | int    | 第几页  |
 
 **返回值：**
 
 ``` 
-code: 0,                        // 返回码， 0 表示成功， -1 系统异常
+code: 0,                        // 返回码， -1 系统异常
 message: '查询成功',             // 与返回码对应的文字
 data: {
   'page': 0,
@@ -929,7 +930,7 @@ data: {
 }
 ```
 
-## 9 系统通知 (todo)
+## 9 系统通知 (doing)
 
 **说明:**  系统推送通知那特定一群用户，给单个用户提醒有新内容，新评论等。这部分内容将基于腾讯信鸽服务来做，具体接口后续再定。
 
