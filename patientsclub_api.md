@@ -812,6 +812,7 @@ data: {
 
 | 参数名       | 类型     | 描述     |
 | --------- | ------ | ------ |
+| action    | string | supply 提交反馈|
 | conent    | string | 反馈问题内容 |
 | img_count | int    | 图片个数   |
 
